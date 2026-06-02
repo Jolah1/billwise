@@ -6,5 +6,13 @@ export default function AppLayout() {
   const { status } = useAuth();
   if (status === 'loading') return null;
   if (status === 'signedOut') return <Redirect href="/(auth)/login" />;
-  return <Stack />;
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{ title: 'Projects' }} />
+      <Stack.Screen
+        name="new-project"
+        options={{ presentation: 'modal', title: 'New project' }}
+      />
+    </Stack>
+  );
 }
