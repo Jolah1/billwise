@@ -7,6 +7,7 @@
 //!   4. run sqlx migrations
 //!   5. bind axum on $BIND_ADDR and serve
 
+mod auth;
 mod config;
 mod domain;
 mod error;
