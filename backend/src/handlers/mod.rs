@@ -4,6 +4,7 @@
 
 pub mod auth;
 pub mod projects;
+pub mod sections;
 
 use crate::error::AppError;
 
