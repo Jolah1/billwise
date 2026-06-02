@@ -1,0 +1,27 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Rust / backend
+/backend/target/
+**/*.rs.bk
+
+# Node / Expo
+/mobile/node_modules/
+/mobile/.expo/
+/mobile/dist/
+/mobile/web-build/
+/mobile/ios/
+/mobile/android/
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+.metro-health-check*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
