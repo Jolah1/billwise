@@ -3,6 +3,7 @@
 //! `domain/` or `db/`.
 
 pub mod auth;
+pub mod items;
 pub mod projects;
 pub mod sections;
 

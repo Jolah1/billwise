@@ -42,6 +42,7 @@ pub fn router(state: AppState) -> Router {
         .route("/projects/:project_id", get(handlers::projects::detail))
         .route("/projects/:project_id/sections",
                get(handlers::sections::list).post(handlers::sections::create))
+        .route("/sections/:section_id/items", post(handlers::items::create))
         .with_state(state)
         .layer(TraceLayer::new_for_http())
         .layer(cors)
