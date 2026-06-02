@@ -1,0 +1,70 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO item (section_id, description, quantity, unit, rate_kobo, item_type, sort_order)\n        SELECT s.id,\n               $2, $3, $4, $5, $6::TEXT::item_type,\n               COALESCE((SELECT MAX(sort_order) + 1 FROM item WHERE section_id = s.id), 0)\n        FROM section s\n        JOIN project p ON p.id = s.project_id\n        WHERE s.id = $1 AND p.account_id = $7\n        RETURNING id,\n                  section_id,\n                  description,\n                  quantity,\n                  unit,\n                  rate_kobo,\n                  item_type::text AS \"item_type!: String\",\n                  sort_order\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "section_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "unit",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "rate_kobo",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 6,
+        "name": "item_type!: String",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "sort_order",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Text",
+        "Int8",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      false
+    ]
+  },
+  "hash": "e2846f60b0bdf1212d3fde26900cd2d533b44333bdc186c0d2ed2582cab8b989"
+}

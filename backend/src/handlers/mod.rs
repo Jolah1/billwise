@@ -3,3 +3,13 @@
 //! `domain/` or `db/`.
 
 pub mod auth;
+pub mod projects;
+
+use crate::error::AppError;
+
+pub(crate) fn require_non_empty(value: &str, field: &str) -> Result<(), AppError> {
+    if value.trim().is_empty() {
+        return Err(AppError::BadRequest(format!("{field} is required")));
+    }
+    Ok(())
+}

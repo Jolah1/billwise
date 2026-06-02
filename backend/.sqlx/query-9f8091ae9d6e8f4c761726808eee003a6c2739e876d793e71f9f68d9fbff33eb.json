@@ -1,0 +1,42 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO section (project_id, name, sort_order)\n        SELECT p.id,\n               $2,\n               COALESCE((SELECT MAX(sort_order) + 1 FROM section WHERE project_id = p.id), 0)\n        FROM project p\n        WHERE p.id = $1 AND p.account_id = $3\n        RETURNING id, project_id, name, sort_order\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "project_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "sort_order",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "9f8091ae9d6e8f4c761726808eee003a6c2739e876d793e71f9f68d9fbff33eb"
+}

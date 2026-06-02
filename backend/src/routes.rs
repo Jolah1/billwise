@@ -37,6 +37,9 @@ pub fn router(state: AppState) -> Router {
         .route("/health", get(health))
         .route("/auth/register", post(handlers::auth::register))
         .route("/auth/login",    post(handlers::auth::login))
+        .route("/projects",
+               get(handlers::projects::list).post(handlers::projects::create))
+        .route("/projects/:project_id", get(handlers::projects::detail))
         .with_state(state)
         .layer(TraceLayer::new_for_http())
         .layer(cors)

@@ -3,3 +3,6 @@
 //! `account_id` explicitly so multi-tenancy is impossible to forget.
 
 pub mod account;
+pub mod item;
+pub mod project;
+pub mod section;
