@@ -43,9 +43,25 @@ cp .env.example .env             # then edit JWT_SECRET for non-trivial use
 export $(grep -v '^#' .env | xargs)   # load env into shell (or use direnv)
 
 sqlx migrate run                 # apply migrations from backend/migrations/
-cargo test                       # run domain unit tests
+cargo test                       # run domain + auth unit tests
 cargo run                        # serve on $BIND_ADDR (default 0.0.0.0:3000)
 ```
+
+### sqlx compile-time checks (offline cache)
+
+The committed `backend/.sqlx/` directory caches query metadata so
+`cargo build` works without a live database. If you change any
+`sqlx::query!` invocation or a migration that affects column types,
+refresh the cache:
+
+```sh
+cd backend
+export DATABASE_URL=postgres://billwise:billwise@localhost:5432/billwise
+cargo sqlx prepare       # rewrites backend/.sqlx/, commit the diff
+```
+
+If you happen to build without a database AND without the cache,
+sqlx will tell you exactly what's missing.
 
 Smoke test:
 

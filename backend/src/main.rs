@@ -9,9 +9,13 @@
 
 mod auth;
 mod config;
+mod db;
 mod domain;
 mod error;
+mod handlers;
 mod routes;
+
+use std::sync::Arc;
 
 use anyhow::Context;
 use sqlx::postgres::PgPoolOptions;
@@ -41,7 +45,12 @@ async fn main() -> anyhow::Result<()> {
         .context("running migrations")?;
     tracing::info!("migrations applied");
 
-    let app = routes::router(routes::AppState { pool });
+    let state = routes::AppState {
+        pool,
+        jwt_secret: Arc::<str>::from(config.jwt_secret),
+        jwt_ttl: config.jwt_ttl,
+    };
+    let app = routes::router(state);
 
     let listener = tokio::net::TcpListener::bind(config.bind_addr)
         .await

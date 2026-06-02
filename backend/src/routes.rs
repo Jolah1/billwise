@@ -4,16 +4,25 @@
 //! all state in one struct means future additions (auth secrets, caches)
 //! don't ripple through every handler signature.
 
-use axum::{routing::get, Json, Router};
+use std::sync::Arc;
+use std::time::Duration;
+
+use axum::{
+    routing::{get, post},
+    Json, Router,
+};
 use serde_json::{json, Value};
 use sqlx::PgPool;
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::TraceLayer;
 
+use crate::handlers;
+
 #[derive(Clone)]
 pub struct AppState {
-    #[allow(dead_code)] // Read by handlers in upcoming slices.
     pub pool: PgPool,
+    pub jwt_secret: Arc<str>,
+    pub jwt_ttl: Duration,
 }
 
 pub fn router(state: AppState) -> Router {
@@ -26,6 +35,8 @@ pub fn router(state: AppState) -> Router {
 
     Router::new()
         .route("/health", get(health))
+        .route("/auth/register", post(handlers::auth::register))
+        .route("/auth/login",    post(handlers::auth::login))
         .with_state(state)
         .layer(TraceLayer::new_for_http())
         .layer(cors)

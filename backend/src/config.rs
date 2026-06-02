@@ -13,11 +13,8 @@ use anyhow::{anyhow, Context};
 pub struct Config {
     pub database_url: String,
     pub bind_addr:    SocketAddr,
-    /// Used by the auth slice; loaded here so missing env trips startup.
-    #[allow(dead_code)]
-    pub jwt_secret: String,
-    #[allow(dead_code)]
-    pub jwt_ttl: Duration,
+    pub jwt_secret:   String,
+    pub jwt_ttl:      Duration,
 }
 
 impl Config {
