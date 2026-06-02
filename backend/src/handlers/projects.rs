@@ -38,6 +38,7 @@ pub struct ProjectResp {
     pub client:       String,
     pub location:     String,
     pub project_date: Date,
+    #[serde(with = "time::serde::rfc3339")]
     pub created_at:   OffsetDateTime,
 }
 
@@ -48,6 +49,7 @@ pub struct ProjectDetailResp {
     pub client:       String,
     pub location:     String,
     pub project_date: Date,
+    #[serde(with = "time::serde::rfc3339")]
     pub created_at:   OffsetDateTime,
     pub total_kobo:   i64,
     pub sections:     Vec<SectionDetailResp>,
