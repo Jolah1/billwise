@@ -2,6 +2,8 @@ import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 
+import { AuthProvider } from '@/auth/context';
+
 export default function RootLayout() {
   // `useState(() => …)` keeps the client alive across re-renders without
   // re-instantiating it. Defaults are conservative — slice 1 doesn't
@@ -20,7 +22,9 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack />
+      <AuthProvider>
+        <Stack screenOptions={{ headerShown: false }} />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
