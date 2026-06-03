@@ -13,6 +13,7 @@ export default function AppLayout() {
         name="new-project"
         options={{ presentation: 'modal', title: 'New project' }}
       />
+      <Stack.Screen name="projects/[id]" options={{ headerShown: false }} />
     </Stack>
   );
 }

@@ -19,3 +19,15 @@ export function formatNaira(kobo: number): string {
 function groupThousands(n: number): string {
   return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+// Parse a user-typed naira amount (e.g. "1,234.50", "1234", "0.5") into
+// integer kobo. Returns null on malformed input or more than 2 decimals
+// — we never silently round kobo since that drifts totals.
+export function parseNairaToKobo(input: string): number | null {
+  const cleaned = input.trim().replace(/,/g, '');
+  if (cleaned === '') return null;
+  if (!/^\d+(\.\d{1,2})?$/.test(cleaned)) return null;
+  const [whole, frac = ''] = cleaned.split('.');
+  const padded = (frac + '00').slice(0, 2);
+  return Number(whole) * 100 + Number(padded);
+}
