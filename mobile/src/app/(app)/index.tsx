@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 import { ApiError } from '@/api/client';
 import type { ProjectResp } from '@/api/types';
@@ -79,16 +79,16 @@ export default function ProjectsList() {
 }
 
 function ProjectRow({ project }: { project: ProjectResp }) {
-  // Tap-to-open-detail lands in the next commit; the row is informational
-  // for now.
   return (
-    <View style={s.row}>
-      <Text style={s.rowTitle}>{project.title}</Text>
-      <Text style={s.rowMeta}>
-        {project.client} · {project.location}
-      </Text>
-      <Text style={s.rowDate}>{project.project_date}</Text>
-    </View>
+    <Link href={`/(app)/projects/${project.id}`} asChild>
+      <Pressable style={({ pressed }) => [s.row, pressed && s.rowPressed]}>
+        <Text style={s.rowTitle}>{project.title}</Text>
+        <Text style={s.rowMeta}>
+          {project.client} · {project.location}
+        </Text>
+        <Text style={s.rowDate}>{project.project_date}</Text>
+      </Pressable>
+    </Link>
   );
 }
 
